@@ -93,8 +93,8 @@ O ID de usuário é um identificador numérico único atribuído a cada conta no
 
 <a href="https://www.star-history.com/#ravenastar-js/social-id-cheatsheet&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ravenastar-js/social-id-cheatsheet&type=Date&theme=dark" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ravenastar-js/social-id-cheatsheet&type=Date&theme=dark" />
    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=ravenastar-js/social-id-cheatsheet&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=ravenastar-js/social-id-cheatsheet&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=ravenastar-js/social-id-cheatsheet&type=Date&teme=dark" />
  </picture>
 </a>
