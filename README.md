@@ -1,5 +1,5 @@
 # 🔍 Social Media ID Cheatsheet
-Guia prático para extração e engenharia reversa de IDs únicos em redes sociais.
+Guia prático para encontrar IDs de perfil de usuário usando código-fonte & ferramentas OSINT. 
 
 ---
 
