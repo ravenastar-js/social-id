@@ -12,7 +12,7 @@ Guia prático para encontrar o ID de perfil de usuário usando código-fonte da 
 
 ## 🪪 Importância dos IDs de Usuário 
 
-O ID de usuário é um identificador numérico único atribuído a cada conta no momento de sua criação. Diferentemente do nome de usuário (handle), que pode ser alterado a qualquer momento, o **ID permanece constante para sempre**.
+O ID de usuário é um identificador numérico único atribuído a cada conta no momento de sua criação. Diferentemente do nome de usuário / username (handle), que pode ser alterado a qualquer momento, o **ID permanece constante para sempre**.
 
 ### Por que o ID é importante❓
 * **Rastreabilidade:** Permite monitorar contas mesmo que o usuário mude o @handle ou o nome de exibição.
