@@ -3,7 +3,7 @@ Guia prático para extração e engenharia reversa de IDs únicos em redes socia
 
 ---
 
-## 📸 INSTAGRAM
+## 🌐 INSTAGRAM
 <details>
   <summary>Clique para expandir os métodos do Instagram</summary>
   <br>
@@ -29,7 +29,7 @@ Guia prático para extração e engenharia reversa de IDs únicos em redes socia
 
 ---
 
-## 🎵 TIKTOK
+## 🌐 TIKTOK
 <details>
   <summary>Clique para expandir os métodos do TikTok</summary>
   <br>
@@ -54,7 +54,7 @@ Guia prático para extração e engenharia reversa de IDs únicos em redes socia
 
 ---
 
-## 𝕏 (Antigo Twitter)
+## 🌐 𝕏 (Antigo Twitter)
 <details>
   <summary>Clique para expandir os métodos do 𝕏</summary>
   <br>
@@ -77,11 +77,11 @@ Guia prático para extração e engenharia reversa de IDs únicos em redes socia
 
 ---
 
-## 🛡️ Importância dos IDs de Usuário 
+## 🪪 Importância dos IDs de Usuário 
 
 O ID de usuário é um identificador numérico único atribuído a cada conta no momento de sua criação. Diferentemente do nome de usuário (handle), que pode ser alterado a qualquer momento, o **ID permanece constante para sempre**.
 
-### Por que o ID é importante:
+### Por que o ID é importante❓
 * **Rastreabilidade:** Permite monitorar contas mesmo que o usuário mude o @handle ou o nome de exibição.
 * **Integrações:** É o dado essencial para APIs, bots e ferramentas de análise de dados.
 * **Investigação Digital (OSINT):** Fundamental para identificação forense e preservação de provas em investigações.
@@ -89,7 +89,7 @@ O ID de usuário é um identificador numérico único atribuído a cada conta no
 
 ---
 
-## Star History
+## 🌟 Star History
 
 <a href="https://www.star-history.com/#ravenastar-js/social-id-cheatsheet&Date">
  <picture>
