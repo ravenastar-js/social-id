@@ -87,6 +87,13 @@ O ID de usuário é um identificador numérico único atribuído a cada conta no
 * **Investigação Digital (OSINT):** Fundamental para identificação forense e preservação de provas em investigações.
 * **Persistência:** Garante o acesso ao perfil histórico, independente de mudanças estéticas na conta.
 
+Além disso, lembre-se de salvar evidências de forma gratuita em serviços de arquivamento, como:
+- https://urldna.io/
+- https://urlscan.io/
+- https://archive.ph/
+- https://web.archive.org/save
+- Entre outras...
+
 ---
 
 ## 🌟 Star History
