@@ -9,10 +9,11 @@
   2. Pressione `Ctrl + F`
 
 ### 🔎 Termos para pesquisar
-  * `webapp..user-detail`
+  * `webapp.user-detail`
   * `userInfo`
   * `"user":{"id"`
 
 ### 🛠️ Ferramentas
   * **Pegar ID:** [CommentPicker - TikTok ID](https://commentpicker.com/tiktok-id.php)
+  * **Pegar ID:** [SECGUIDE - TikTok ID Extractor](https://secguide.pages.dev/tools/tiktok-id)
   * **Engenharia Reversa:** `https://www.tiktok.com/@ID_AQUI`
