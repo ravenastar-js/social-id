@@ -3,9 +3,9 @@ Guia prático para encontrar IDs de perfil de usuário usando código-fonte & fe
 
 ---
 
-## [▶  Ver/Instagram](social/instagram)
-## [▶  Ver/TikTok](social/tiktok)
-## [▶  Ver/𝕏](social/x)
+## [▶ㅤInstagram](social/instagram)
+## [▶ㅤTikTok](social/tiktok)
+## [▶ㅤ𝕏](social/x)
 
 ---
 
