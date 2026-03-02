@@ -11,7 +11,7 @@
 ## 🔎 Termos para pesquisar
   * `profilepage_`
   * `profile_id`
-  * `user_id`
+  * `"appScopedIdentity":"`
   * `"id":`
 
 > [!NOTE]  

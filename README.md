@@ -13,9 +13,10 @@ Guia prático para encontrar o ID do perfil de usuário usando código-fonte da 
 
 ---
 
-## [➜ ​ ​​Instagram](social/instagram)
-## [➜ ​ ​​​TikTok](social/tiktok)
-## [➜ ​ ​𝕏](social/x)
+##  [​<img width="20" src="assets/icons/instagram-100-v2.png"/> ​ ➜ ​ ​Instagram](social/instagram)
+## [​​<img width="20" src="assets/icons/threads-100.png"/> ​ ➜ ​ ​Threads](social/threads)
+## [​<img width="20" src="assets/icons/tiktok-100.png"/> ​ ➜ ​ ​​​TikTok](social/tiktok)
+## [​<img width="20" src="assets/icons/x-100.png"/> ​ ➜ ​ ​𝕏](social/x)
 
 ---
 

@@ -26,7 +26,7 @@
         if (instagramId) {
             console.log(`%cInstagram ID: ${instagramId}`, 'font-size: 16px; font-weight: bold; color: #E1306C; background: #000; padding: 6px 10px; border-radius: 6px;');
 
-            // Mostra o fbid também (opcional)
+            // Mostra o fbid também
             if (facebookId) {
                 console.log(`%cFB ID: ${facebookId}`, 'font-size: 16px; font-weight: bold; color: #1877F2; background: #000; padding: 6px 10px; border-radius: 6px;');
             }
