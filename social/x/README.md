@@ -15,6 +15,8 @@
 <details>
 <summary><strong> Console web (Ctrl+Shift+K)</strong></summary>
 
+https://github.com/user-attachments/assets/a411d488-abde-4562-b8ed-bd2c3fd7baf0
+
 ```
 (function() {
   try {
