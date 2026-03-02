@@ -1,12 +1,22 @@
+
+<div align="center">
+
+<img src="assets/img/icon.png" alt="Social Media ID Cheatsheet" width="220" style="margin-bottom: 20px;"/>
+
 # 🔍 Social Media ID Cheatsheet
 
 Guia prático para encontrar o ID do perfil de usuário usando código-fonte da página & ferramentas OSINT. 
 
+
+[![toon](https://img.shields.io/badge/toon-gray.svg)](https://github.com/toon-format/toon) [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.txt)
+
+</div>
+
 ---
 
-## [▶ㅤInstagram](social/instagram)
-## [▶ㅤTikTok](social/tiktok)
-## [▶ㅤ𝕏](social/x)
+## [➜ㅤInstagram](social/instagram)
+## [➜ㅤTikTok](social/tiktok)
+## [➜ㅤ𝕏](social/x)
 
 ---
 
