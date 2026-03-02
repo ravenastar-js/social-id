@@ -17,3 +17,13 @@
 ## 🛠️ Ferramentas
   * **Pegar ID:** [CommentPicker - Instagram ID](https://commentpicker.com/instagram-user-id.php)
   * **Engenharia Reversa:** [CommentPicker - Find Username](https://commentpicker.com/instagram-username.php)
+
+---
+
+## 💡 Identificação no ecossistema da META
+
+Muitas vezes, no ecossistema da META, principalmente no código‑fonte da página, é possível encontrar informações de identificação, como o `fbid` e identificadores específicos de cada rede. 
+
+A Meta adota uma arquitetura de escopo de identificadores (scoping), ou seja, cada usuário possui um identificador distinto para cada perfil. 
+
+O `fbid` é o "Global Identity" ou "App‑Scoped ID" que vincula as contas do Centro de Contas da Meta. 
