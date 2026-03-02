@@ -7,8 +7,7 @@
 
 Guia prático para encontrar o ID do perfil de usuário usando código-fonte da página & ferramentas OSINT. 
 
-
-[![toon](https://img.shields.io/badge/toon-gray.svg)](https://github.com/toon-format/toon) [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.txt)
+[![➜ ​ ​TOON](https://img.shields.io/badge/➜%20%20toon-gray.svg)](https://toonformat.dev/) 
 
 </div>
 
@@ -36,6 +35,14 @@ Além disso, lembre-se de salvar evidências de forma gratuita em serviços de a
 - https://archive.ph/
 - https://web.archive.org/save
 - Entre outras...
+
+---
+
+## 📞 Suporte 
+
+Se precisar de ajuda ou quiser falar com a equipe, entre no nosso servidor de suporte:
+
+[![Servidor de Suporte](https://img.shields.io/badge/Servidor%20de%20Suporte-Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/FncVNprdgP)
 
 ---
 
