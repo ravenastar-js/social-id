@@ -5,12 +5,15 @@
   2. **Para pesquisar:** Toque nos **três pontinhos** (canto superior direito) e selecione **"Encontrar na página"**.
 
 ### 💻 Acessar código fonte pelo computador
-  1. Pressione `Ctrl + U` 
+  1. Pressione `Ctrl + Shift + i` ou `Ctrl + U`
   2. Pressione `Ctrl + F`
 
 ### 🔎 Termos para pesquisar
   * `"user_id":"`
   * `"identifier":"`
+  
+> [!NOTE]  
+> 💡 Se não encontrar informações de IDs no código fonte, use o script do `Console Web (Ctrl+Shift+K)` ou as ferramentas OSINT.
 
 <details>
 <summary><strong> Console web (Ctrl+Shift+K)</strong></summary>
