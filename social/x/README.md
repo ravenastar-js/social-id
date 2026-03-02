@@ -11,14 +11,14 @@
 ### 🔎 Termos para pesquisar
   * `"user_id":"`
   * `"identifier":"`
-  
+
 > [!NOTE]  
 > 💡 Se não encontrar informações de IDs no código fonte, use o script do `Console Web (Ctrl+Shift+K)` ou as ferramentas OSINT.
 
 <details>
 <summary><strong> Console web (Ctrl+Shift+K)</strong></summary>
 
-https://github.com/user-attachments/assets/a411d488-abde-4562-b8ed-bd2c3fd7baf0
+https://github.com/user-attachments/assets/29922d01-d0d6-413b-abfe-19957a72ec76
 
 ```
 (function() {
@@ -28,14 +28,15 @@ https://github.com/user-attachments/assets/a411d488-abde-4562-b8ed-bd2c3fd7baf0
       const data = JSON.parse(script.textContent);
       if (data['@type'] === 'ProfilePage' && data.mainEntity?.identifier) {
         const id = data.mainEntity.identifier;
-        console.log('✅ ID do perfil:', id);
+        const username = data.mainEntity.additionalName || '';
+        console.log(`%c𝕏 ID: ${id}`, 'font-size: 16px; font-weight: bold; color: #1DA1F2; background: #000; padding: 6px 10px; border-radius: 6px;');
         navigator.clipboard?.writeText(id);
         return id;
       }
     }
-    console.log('❌ ID não encontrado');
+    console.log('%c❌ ID não encontrado', 'color: #1DA1F2;');
   } catch(e) {
-    console.error('Erro:', e);
+    console.log('%c❌ Erro', 'color: #1DA1F2;', e.message);
   }
 })();
 ```
