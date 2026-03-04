@@ -107,7 +107,7 @@
 
 ## 📌 O que é este projeto?
 
-O **OSINT Investigative Agent** é um prompt de sistema avançado, projetado para transformar qualquer LLM em um investigador OSINT de nível expert. O agente realiza investigações completas, profundas, precisas e replicáveis sobre perfis públicos, com foco no contexto brasileiro.
+O **OSINT Investigative Agent** é um prompt projetado para transformar qualquer LLM em um investigador OSINT de nível expert. O agente realiza investigações completas, profundas, precisas e replicáveis sobre perfis públicos, com foco no contexto brasileiro.
 
 Ele adapta automaticamente a metodologia para qualquer tipo de alvo: médicos, advogados, psicólogos, coaches, influenciadores, empresários, ONGs, profissionais de infosec e muito mais.
 
