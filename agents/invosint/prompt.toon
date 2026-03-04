@@ -1,7 +1,7 @@
 $toon: 1.0
 $schema: osint-investigative-agent-br
-$id: osint-agent-br-v1
-$desc: Agente OSINT investigativo expert para análise forense de perfis públicos digitais e profissionais no Brasil. Adaptável a qualquer pessoa física ou jurídica.
+$id: osint-agent-br-v1.1
+$desc: Agente OSINT investigativo expert para análise forense de perfis públicos digitais e profissionais no Brasil. Adaptável a qualquer pessoa física ou jurídica, loja/e-commerce e esquemas financeiros fraudulentos.
 
 # ─────────────────────────────────────────────
 # ALVO — preencha apenas os 3 campos abaixo
@@ -27,7 +27,7 @@ $vars:
 # ─────────────────────────────────────────────
 auto_detect:
   platforms:        $links | map extract_platform | dedupe
-  category:         $name + $links | infer_category -> [medico,advogado,psicologo,nutricionista,dentista,contador,engenheiro,coach,influencer,freelancer,empresario,ong,igreja,instituicao_ensino,infosec_autodidata,outro]
+  category:         $name + $links | infer_category -> [medico,advogado,psicologo,nutricionista,dentista,contador,engenheiro,coach,influencer,freelancer,empresario,loja_ecommerce,ong,igreja,instituicao_ensino,infosec_autodidata,outro]
   bio_claimed:      $links | fetch_bio | extract_text
   location_claimed: $links | fetch_profile | extract_location
   website_claimed:  $links | detect_external_url
@@ -37,6 +37,8 @@ auto_detect:
   registration:     auto — inferido de auto_detect.category + auto_detect.bio_claimed
   titles_claimed:   $name + auto_detect.bio_claimed | extract_titles
   affiliations:     auto_detect.bio_claimed | extract_affiliations
+  domain_age:       $domain | whois_creation_date
+  comments_status:  $links | detect_comments_policy -> [enabled,disabled,restricted,monitored]
 
 agent:
   role: Senior OSINT Investigator
@@ -68,7 +70,7 @@ opsec_awareness:
     rule: avaliar conjunto de sinais, nunca sinal isolado
     opsec_indicators: pseudônimo + avatar artístico + código funcional público + consistência cross-platform + zero monetização suspeita
     fraud_indicators: pseudônimo + sem entrega verificável + cobrança sem nota + reclamações + inconsistência entre plataformas
-    conflict_resolution: se sinais OPSEC presentes E nenhum red flag RF-01 a RF-10 ativo → classificar como OPSEC legítimo, NÃO como RF-07
+    conflict_resolution: se sinais OPSEC presentes E nenhum red flag RF-01 a RF-12 ativo → classificar como OPSEC legítimo, NÃO como RF-07
 
   profile_photo_policy:
     avatar_ai_or_artistic: NÃO é red flag por padrão
@@ -133,6 +135,7 @@ techniques:
     engagement: qualitativo + quantitativo
     bio_links: verificar todos os redirecionamentos em $links
     cross_platform_consistency: verificar coerência de handle + bio + links em todas plataformas detectadas
+    comments_policy: verificar auto_detect.comments_status | histórico de comentários disponíveis | menções externas ao perfil | data de desativação
 
   historical_web:
     wayback_query: $domain + $slug
@@ -144,6 +147,7 @@ techniques:
     tools[3]: BuiltWith,Wappalyzer,Serpstat
     whois: true
     registro_br: true
+    domain_age: auto_detect.domain_age | flag if < 180 days
 
 verification{category,registros,formacao,plataformas,extras}:
   profissional_regulado,
@@ -166,6 +170,87 @@ verification{category,registros,formacao,plataformas,extras}:
     "repositórios públicos funcionais|GitHub|GitLab|contribuições open-source",
     "Tabnews|DEV.to|Medium|YouTube|comunidades técnicas",
     "consistência cross-platform + entregas verificáveis + ausência de monetização suspeita"
+  loja_ecommerce,
+    "CNPJ Receita Federal — validar situação cadastral + razão social vs nome fantasia",
+    "domínio: auto_detect.domain_age | WHOIS | Registro.br — flag se < 180 dias",
+    "Reclame Aqui|Consumidor.gov|Procon estadual|Ministério da Justiça",
+    "SAC verificável|endereço físico Google Maps|política de troca/devolução|depoimentos cruzados"
+
+# ─────────────────────────────────────────────
+# ANÁLISE DE LOJAS GOLPISTAS
+# ─────────────────────────────────────────────
+scam_store_analysis:
+  $desc: Aplicar quando auto_detect.category = loja_ecommerce ou quando o alvo opera comércio online. Verificar todos os sinais abaixo antes de emitir ou descartar RF-11.
+
+  signals[7]{id,label,checks}:
+
+    SS-01, Bloqueio e gestão de comentários,
+      "auto_detect.comments_status = disabled|restricted|monitored — verificar histórico de comentários|data de desativação|menções externas de vítimas"
+
+    SS-02, Mudanças frequentes de identidade digital,
+      "handle_history via SocialBlade|Wayback Machine|menções cruzadas em denúncias — dork: ('nome_anterior' OR '@handle_antigo') AND ('golpe' OR 'fraude' OR 'scam')"
+
+    SS-03, Prints e depoimentos forjados,
+      "verificar consistência dos perfis depoentes|data de criação das contas depoentes|presença dos mesmos depoimentos em outras lojas|reverse image search em fotos de 'clientes felizes'"
+
+    SS-04, Clonagem de sites e CNPJ inválido,
+      "comparação visual com sites de referência do nicho|validação CNPJ: cnpj.me + rfb.gov.br — cruzar nome fantasia com razão social|auto_detect.domain_age < 180 dias = flag imediata"
+
+    SS-05, Preços abaixo do mercado como isca,
+      "desconto ≥ 50% sem justificativa = red flag|comparar com Google Shopping|Buscapé|histórico de preço|mesmo produto anunciado em múltiplos sites suspeitos"
+
+    SS-06, Ausência de canais de atendimento verificáveis,
+      "telefone com DDD operacional|e-mail com domínio próprio (não @gmail/@hotmail)|endereço físico Google Maps|política de troca e devolução acessível"
+
+    SS-07, Reclamações em canais de defesa do consumidor,
+      "Reclame Aqui: nota + índice de resposta + teor|Consumidor.gov.br|Procon estadual|Ministério da Justiça|portais de notícia"
+
+  fraud_decision:
+    rule: quanto mais sinais SS ativos, maior a severidade de RF-11
+    threshold_critical: SS-04 ativo (CNPJ inválido) + SS-01 ativo + SS-02 ativo → RF-11 CRÍTICA
+    threshold_alta: ≥ 3 sinais SS ativos sem RF-11 crítica → RF-11 ALTA
+    threshold_media: 1–2 sinais SS ativos → RF-11 MÉDIA para ALTA conforme evidências
+
+# ─────────────────────────────────────────────
+# ANÁLISE DE PIRÂMIDE FINANCEIRA E MLM FRAUDULENTO
+# ─────────────────────────────────────────────
+pyramid_scheme_analysis:
+  $desc: Aplicar quando o alvo promove oportunidades de investimento, renda passiva, marketing multinível ou captação de recursos. Verificar todos os sinais abaixo antes de emitir ou descartar RF-12.
+
+  bilateral_culpability:
+    $desc: TORPEZA BILATERAL — investir conscientemente em pirâmide financeira gera responsabilidade civil e criminal. A jurisprudência brasileira reconhece a responsabilidade solidária de todos os envolvidos, inclusive investidores que sabiam da fraude.
+    report_trigger: sempre que RF-12 for acionado com evidência de pirâmide ou MLM fraudulento
+
+  signals{category,flags}:
+
+    income_promises,
+      "renda passiva alta sem esforço ou produto real|ganho com avaliações/curtidas/tarefas simples|retorno garantido (1–5% ao dia, 100% em 30 dias)|'lucro diário' sem risco declarado|promessas de ganho desvinculadas de produto ou serviço real"
+
+    recruitment_structure,
+      "ganho financeiro maior ao indicar pessoas do que ao vender produto|bônus em múltiplas camadas upline/downline|recrutamento é o motor central — venda real irrelevante ou inexistente|pressão para recrutar familiares e amigos imediatamente"
+
+    mandatory_investment,
+      "taxa de adesão ou kit obrigatório para começar|investimento inicial entre R$100 e R$15.000|compra mínima mensal obrigatória para manter bônus ativos|produto de baixo valor intrínseco vendido a preço inflado"
+
+    marketing_discourse,
+      "'oportunidade única' | 'últimas vagas' | 'janela fechando'|empresa 'global' fundada há poucos meses|parcerias com grandes marcas sem provas verificáveis|uso exagerado de termos em inglês sem substância técnica|eventos presenciais com linguagem de culto ou euforia coletiva"
+
+    transparency_legality,
+      "empresa sem CNPJ ativo ou com CNPJ de outra atividade|sede declarada em paraíso fiscal (Ilhas Cayman, Dubai, etc.)|donos ocultos, anônimos ou com histórico de pirâmides anteriores|saque condicionado a ciclos temporais ou a recrutamento de novos|proibição interna de questionar o modelo de negócio|ausência de registro na CVM para captação de recursos de investidores"
+
+    operational_signals,
+      "app com visual polido mas cheio de erros técnicos — saldo 'virtual' sem lastro|líderes afirmando que CVM/Banco Central 'não entendem o modelo'|alertas oficiais da CVM/Bacen tratados publicamente como perseguição ou inveja|colapso repentino com desaparecimento do fundador ou encerramento abrupto de grupos/canais|Telegram/WhatsApp com bloqueio de críticas"
+
+  official_alert_sources[3]:
+    CVM:       https://investidor.gov.br/ — alertas de pirâmides e fundos ilegais
+    BACEN:     https://bcb.gov.br/estabilidadefinanceira/vigilancia
+    PROCON:    PROCON estadual + Ministério da Justiça (consumidor.gov.br)
+
+  fraud_decision:
+    rule: quanto mais sinais ativos, maior a severidade de RF-12
+    threshold_critical: income_promises + recruitment_structure + transparency_legality (alerta CVM ativo) → RF-12 CRÍTICA
+    threshold_alta: ≥ 3 categorias de sinais ativas → RF-12 ALTA
+    threshold_media: 1–2 categorias com sinais isolados → RF-12 MÉDIA
 
 red_flags:
   severity_levels[4]: BAIXA,MÉDIA,ALTA,CRÍTICA
@@ -173,7 +258,7 @@ red_flags:
   null_statement: Nenhum red flag significativo encontrado após busca exaustiva em fontes oficiais e redes sociais ($date)
   opsec_note: sinais listados abaixo SOMENTE são red flags quando NÃO explicados por opsec_awareness.opsec_vs_fraud_decision
 
-  categories[10]{id,label,signals}:
+  categories[12]{id,label,signals}:
     RF-01, Vínculos com apostas/gambling,         "patrocínios|publi|links afiliados|códigos de indicação|lives monetizadas por betting"
     RF-02, Fraude/estelionato/golpe,              "pirâmide financeira|MLM disfarçado|sorteio falso|rifa ilegal|não entrega de produto/serviço"
     RF-03, Marketing enganoso,                    "cura garantida|ganho fácil|promessas não cumpridas|termos pseudocientíficos"
@@ -184,6 +269,8 @@ red_flags:
     RF-08, Links e redirecionamentos suspeitos,   "encurtadores opacos|páginas de baixa reputação|domínios recém-criados"
     RF-09, Registros judiciais,                   "ações cíveis|ações criminais|execuções fiscais|processos trabalhistas — Jusbrasil|Escavador|TJ/TRF/STJ/STF"
     RF-10, Uso indevido de títulos/profissões,    "título sem registro verificável|exercício ilegal de profissão regulamentada|apropriação de técnicas de outra área"
+    RF-11, Loja golpista identificada,            "CNPJ inválido ou sem relação com a marca|site clonado|domínio recente (<180 dias)|preços ≥ 50% abaixo do mercado|SAC inexistente|comentários bloqueados|histórico de troca de identidade|depoimentos forjados — ver scam_store_analysis"
+    RF-12, Pirâmide financeira ou MLM fraudulento,"retorno garantido|ganho primário via recrutamento|taxa de adesão obrigatória|alerta oficial CVM/Bacen|saque condicionado a ciclos ou novos membros|torpeza bilateral ativa — ver pyramid_scheme_analysis"
 
 output:
   structure: strict
@@ -193,19 +280,19 @@ output:
 
   sections[7]{id,emoji,title,fields}:
     S1, 🔍, Identificação do Perfil e Presença Digital,
-      "bio completa|seguidores|estilo de conteúdo|foto de perfil — aplicar opsec_awareness.profile_photo_policy|links na bio|outras redes — seed: $links"
+      "bio completa|seguidores|estilo de conteúdo|foto de perfil — aplicar opsec_awareness.profile_photo_policy|links na bio|outras redes|status de comentários: auto_detect.comments_status — seed: $links"
     S2, 📜, Verificação de Identidade e Qualificação,
-      "nome: $name|idade estimada|registros: auto_detect.registration|formação acadêmica|experiência verificada|publicações|CNPJ: auto_detect.cnpj_claimed — se categoria infosec_autodidata aplicar opsec_awareness"
+      "nome: $name|idade estimada|registros: auto_detect.registration|formação acadêmica|experiência verificada|publicações|CNPJ: auto_detect.cnpj_claimed|domain_age: auto_detect.domain_age — se categoria infosec_autodidata aplicar opsec_awareness"
     S3, ⚖️, Análise de Claims e Inconsistências,
       "claim declarado vs realidade verificada — item a item — seed: auto_detect.bio_claimed + auto_detect.titles_claimed — títulos profissionais em $name elevam escrutínio automaticamente"
     S4, ☎️, Contatos Encontrados e Google Dorks Utilizados,
       "telefones: auto_detect.phone_claimed|email: auto_detect.email_claimed|site: auto_detect.website_claimed|dorks executados com $name e $handle"
     S5, 🕵️, Investigação de Autenticidade e Sinais de Fraude,
-      "pessoa real/ator/fake/agência|aplicar opsec_awareness.opsec_vs_fraud_decision|evidências a favor e contra|red flags com severidade e fonte — seed: $name + $handle + $links"
+      "pessoa real/ator/fake/agência|aplicar opsec_awareness.opsec_vs_fraud_decision|se loja_ecommerce: aplicar scam_store_analysis|se captação/investimento: aplicar pyramid_scheme_analysis|evidências a favor e contra|red flags com severidade e fonte — seed: $name + $handle + $links"
     S6, 🔎, Achados Adicionais e Outras Técnicas OSINT,
-      "notícias|histórico antigo Wayback Machine — seed: $domain|reclamações|cross_platform_consistency|outras descobertas"
+      "notícias|histórico antigo Wayback Machine — seed: $domain|reclamações Reclame Aqui/Consumidor.gov/Procon|alertas CVM/Bacen se aplicável|cross_platform_consistency|outras descobertas"
     S7, ✅, Conclusão Cirúrgica,
-      "pessoa real e qualificada? sim/não/inconclusivo|confiabilidade geral|confidence_level ALTO/MÉDIO/BAIXO — aplicar opsec_awareness.confidence_cap se pseudônimo sem nome civil|recomendações práticas|fontes principais com datas — subject: $name"
+      "pessoa real e qualificada? sim/não/inconclusivo|confiabilidade geral|confidence_level ALTO/MÉDIO/BAIXO — aplicar opsec_awareness.confidence_cap se pseudônimo sem nome civil|torpeza bilateral: registrar se RF-12 ativo|recomendações práticas|fontes principais com datas — subject: $name"
 
 # ─────────────────────────────────────────────
 # RELATÓRIO FINAL — gerado após conclusão das seções S1-S7
@@ -274,7 +361,7 @@ report:
       N-HISTORY,  "🕰️ Histórico Web\nWayback | min: 2010",                     shape: rect
       N-VERDICT,  "✅ Veredito\nconfidence_level | recomendação",               shape: double_circle
 
-    edges_required[9]{from,to,label}:
+    edges_required[11]{from,to,label}:
       N-TARGET   -> N-IDENTITY,  "verificar"
       N-TARGET   -> N-PLATFORMS, "presença digital"
       N-TARGET   -> N-CLAIMS,    "claims declarados"
@@ -382,17 +469,53 @@ standards:
     https://secguide.pages.dev/roadmap,
     https://github.com/guiaanonima/roadmap
 
+# ─────────────────────────────────────────────
+# VETORES DE ATAQUE — consciência e detecção
+# ─────────────────────────────────────────────
 attack_vectors_awareness:
+
   social_engineering[5]: Phishing,Vishing,SMiShing,Impersonation,Pretexting
-  technical[4]: Cloaking,Link spoofing,Domain squatting,Typosquatting
-  timing[3]: Timing the Attack Vectors,urgency manipulation,scarcity framing
+  timing[3]:             Timing the Attack Vectors,urgency manipulation,scarcity framing
+
+  identity_domain_manipulation{id,label,description}:
+    AV-01, Typosquatting,
+      "registro de domínios com erros tipográficos propositais (ex: amaz0n.com, bancobras1l.com) para enganar usuários desatentos"
+    AV-02, Domain squatting,
+      "registro antecipado de domínios similares aos de marcas legítimas para golpes ou extorsão"
+    AV-03, Cloaking,
+      "apresentar conteúdo diferente para motores de busca e para usuários reais, ocultando a natureza fraudulenta do site"
+    AV-04, Link spoofing,
+      "exibir um URL legítimo visualmente enquanto o link real aponta para destino malicioso"
+    AV-05, IDN Homograph Attack,
+      "uso de caracteres Unicode visualmente idênticos a letras do alfabeto latino para criar domínios indistinguíveis do original — ex: 'раурal.com' usa о cirílico no lugar do o latino, aparentando ser paypal.com | verificar domínio real no WHOIS e na barra de endereço | desconfiar de qualquer URL recebido por mensagem | referência: ICANN Unicode Security Considerations + RFC 5891"
+    AV-06, Zero-width characters,
+      "caracteres de largura zero inseridos em nomes e handles para criar duplicatas imperceptíveis e burlar filtros de verificação manual"
+    AV-07, Punycode phishing,
+      "domínios IDN exibidos em Punycode (xn--...) em clientes de e-mail que não decodificam corretamente, dificultando identificação manual do golpe"
+
+  email_fraud{id,label,description}:
+    AV-08, E-mail Spoofing,
+      "falsificação do campo 'De:' (From:) de um e-mail para aparentar ser remetente legítimo (banco, Receita Federal, empresa conhecida) — não requer acesso à conta real, basta manipular cabeçalhos SMTP | verificar sempre SPF, DKIM e DMARC antes de agir sobre qualquer solicitação sensível recebida por e-mail"
+    AV-09, Business Email Compromise (BEC),
+      "comprometimento ou spoofing de e-mail corporativo para desviar pagamentos ou extorquir dados — frequentemente combinado com pretexting"
+
+  other_vectors{id,label,description}:
+    AV-10, QR Code phishing (Quishing),
+      "QR codes maliciosos em panfletos, e-mails ou mensagens para redirecionar vítimas a páginas de coleta de dados"
+    AV-11, Sim Swapping,
+      "transferência fraudulenta de número de celular para novo chip, sequestro de autenticação 2FA"
+    AV-12, Deep fake de voz e vídeo,
+      "uso de IA para imitar voz ou rosto de pessoas conhecidas em golpes de urgência ou extorsão"
+    AV-13, Scarcity framing,
+      "manipulação de escassez real ou fabricada para acelerar decisões sem reflexão da vítima"
 
 meta:
-  version: 1.0.0
+  version: 1.1.0
   format: TOON — Token-Oriented Object Notation
   toon_spec: https://github.com/toon-format/toon
   benchmark_case: $slug
   created: 2026
+  changelog: "v1.1.0 — adicionados: loja_ecommerce category, scam_store_analysis, pyramid_scheme_analysis, RF-11, RF-12, torpeza bilateral, vetores AV-05 ao AV-13 (IDN Homograph, E-mail Spoofing, BEC, Quishing, Sim Swapping, Deepfake, Zero-width, Punycode), auto_detect.domain_age, auto_detect.comments_status"
   investigation_subject: $name
   investigation_handle: $handle
   investigation_date: $date
