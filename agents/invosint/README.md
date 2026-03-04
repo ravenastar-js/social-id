@@ -91,7 +91,7 @@
 >
 > ---
 >
-> <sub>Este disclaimer é parte integrante do projeto <strong>osint-agent-br v1.0.0</strong> e deve ser mantido em todas as versões derivadas, forks e redistribuições.</sub>
+> <sub>Este <strong>⚠️ AVISO IMPORTANTE"</strong> é parte integrante do projeto <strong>osint-agent-br v1.0.0</strong> e deve ser mantido em todas as versões derivadas, forks e redistribuições.</sub>
 >
 > </details>
 
