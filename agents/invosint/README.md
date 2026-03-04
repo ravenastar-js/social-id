@@ -91,7 +91,7 @@
 >
 > ---
 >
-> > <sub>Este <strong>"⚠️ AVISO IMPORTANTE"</strong> constitui parte integrante e indissociável do projeto <strong>osint-agent-br v1.0.0</strong>. Sua reprodução integral é obrigatória em todas as versões derivadas, forks, redistribuições, adaptações e usos comerciais ou não comerciais deste material, sendo vedada qualquer alteração, supressão ou ocultação de seu conteúdo.</sub>
+> > <sub>Este <strong>"⚠️ AVISO IMPORTANTE"</strong> constitui parte integrante e indissociável do projeto <strong>osint-agent-br v1.1.0</strong>. Sua reprodução integral é obrigatória em todas as versões derivadas, forks, redistribuições, adaptações e usos comerciais ou não comerciais deste material, sendo vedada qualquer alteração, supressão ou ocultação de seu conteúdo.</sub>
 >
 > </details>
 
@@ -104,8 +104,8 @@
 
 # 🕵️ OSINT Investigative Agent — BR
 
-> **osint-agent-br v1.0.0** · Agente de inteligência de fontes abertas para investigação de perfis públicos brasileiros
-> 
+> **osint-agent-br v1.1.0** · Agente de inteligência de fontes abertas para investigação de perfis públicos brasileiros
+>
 > Compatível com: ChatGPT · Gemini · Grok · Claude · Copilot e afins
 
 ---
@@ -114,7 +114,7 @@
 
 O **OSINT Investigative Agent** é um prompt projetado para transformar qualquer LLM em um investigador OSINT de nível expert. O agente realiza investigações completas, profundas, precisas e replicáveis sobre perfis públicos, com foco no contexto brasileiro.
 
-Ele adapta automaticamente a metodologia para qualquer tipo de alvo: médicos, advogados, psicólogos, coaches, influenciadores, empresários, ONGs, profissionais de infosec e muito mais. 
+Ele adapta automaticamente a metodologia para qualquer tipo de alvo: médicos, advogados, psicólogos, coaches, influenciadores, empresários, lojas e e-commerces, esquemas financeiros fraudulentos, ONGs, profissionais de infosec e muito mais.
 
 > TRATA-SE APENAS DE UM MODELO BASE, NÃO CORRESPONDENDO A UM MODELO COMPLETO.
 
@@ -127,8 +127,10 @@ Ele adapta automaticamente a metodologia para qualquer tipo de alvo: médicos, a
 | 🔍 Identificação de perfil | Bio, seguidores, plataformas, links e redirecionamentos |
 | 📜 Verificação de qualificação | Registros em CRM, OAB, CRC, CREA, CRP, MEC e equivalentes |
 | ⚖️ Análise de claims | Cruzamento de declarações públicas com fontes primárias |
-| 🚩 Detecção de red flags | 10 categorias de alertas com severidade e evidência |
+| 🚩 Detecção de red flags | 12 categorias de alertas com severidade e evidência |
 | 🛡️ OPSEC Awareness | Distinção entre opacidade fraudulenta e segurança operacional legítima |
+| 🏪 Análise de lojas golpistas | 7 sinais específicos com lógica de decisão e thresholds |
+| 📐 Análise de pirâmide financeira | Detecção de MLM fraudulento com aviso de torpeza bilateral |
 | 🔎 Google Dorks sistematizados | Operadores avançados para fraude, identidade e acadêmico |
 | 📊 Relatório estruturado | Saída em `.txt` forense + diagrama Mermaid |
 | 🕰️ Histórico web | Análise via Wayback Machine desde 2010 |
@@ -150,6 +152,8 @@ RF-07  Opacidade de identidade (com proteção OPSEC)
 RF-08  Links e redirecionamentos suspeitos
 RF-09  Registros judiciais (Jusbrasil / TJ / TRF / STJ / STF)
 RF-10  Uso indevido de títulos ou profissões regulamentadas
+RF-11  Loja golpista identificada
+RF-12  Pirâmide financeira ou MLM fraudulento
 ```
 
 Cada red flag é reportado no formato:
@@ -159,16 +163,63 @@ Cada red flag é reportado no formato:
 
 ---
 
+## 🏪 Análise de Lojas Golpistas
+
+O agente aplica verificação especializada quando o alvo opera comércio online, checando 7 sinais estruturados:
+
+| Sinal | O que verifica |
+|---|---|
+| **SS-01** Bloqueio de comentários | Status de comentários nas redes · data de desativação · menções externas de vítimas |
+| **SS-02** Mudança de identidade | Histórico de handles via SocialBlade · Wayback Machine · denúncias cruzadas |
+| **SS-03** Depoimentos forjados | Consistência dos perfis depoentes · reverse image search · depoimentos duplicados em outros sites |
+| **SS-04** Clonagem e CNPJ inválido | Comparação com sites do nicho · validação CNPJ na Receita Federal · idade do domínio |
+| **SS-05** Preços isca | Desconto ≥ 50% sem justificativa · comparação com Google Shopping e Buscapé |
+| **SS-06** SAC inexistente | Telefone com DDD operacional · e-mail com domínio próprio · endereço físico verificável |
+| **SS-07** Reclamações em defesa do consumidor | Reclame Aqui · Consumidor.gov.br · Procon estadual · Ministério da Justiça |
+
+**Threshold de severidade de RF-11:**
+```
+SS-04 ativo (CNPJ inválido) + SS-01 + SS-02         → RF-11 CRÍTICA 🔴
+≥ 3 sinais SS ativos                                → RF-11 ALTA 🟠
+1–2 sinais SS ativos                                → RF-11 MÉDIA 🟡
+```
+
+---
+
+## 📐 Análise de Pirâmide Financeira e MLM Fraudulento
+
+O agente aplica verificação especializada quando o alvo promove oportunidades de investimento, renda passiva ou recrutamento em cadeia.
+
+> ⚠️ **TORPEZA BILATERAL** — Investir conscientemente em pirâmide financeira gera responsabilidade civil e criminal. A jurisprudência brasileira reconhece a responsabilidade solidária de todos os envolvidos, inclusive investidores que sabiam da fraude.
+
+Categorias de sinais verificados:
+
+```
+💸 Promessas de renda        — retorno garantido · lucro diário · 1–5% ao dia
+👥 Estrutura de recrutamento — ganho maior ao indicar do que ao vender
+💰 Investimento inicial      — taxa de adesão · kit obrigatório · compra mínima mensal
+📢 Marketing e discurso      — "oportunidade única" · empresa global fundada há meses
+⚖️ Transparência e legalidade — CNPJ inativo · sede em paraíso fiscal · donos ocultos
+📱 Sinais operacionais       — app com saldo virtual sem lastro · CVM tratada como perseguição
+```
+
+Fontes oficiais verificadas automaticamente:
+- **CVM:** investidor.gov.br — alertas de pirâmides e fundos ilegais
+- **Banco Central:** bcb.gov.br/estabilidadefinanceira/vigilancia
+- **PROCON** estadual + Ministério da Justiça (consumidor.gov.br)
+
+---
+
 ## 🛡️ OPSEC Awareness
 
 O agente possui lógica dedicada para **não confundir segurança operacional legítima com fraude**. Sinais como avatar artístico, pseudônimo, ausência de CNPJ ou telefone público são avaliados no contexto completo do perfil antes de qualquer classificação.
 
 **Regra de decisão:**
 ```
-Pseudônimo + avatar artístico + entregas verificáveis + consistência 
+Pseudônimo + avatar artístico + entregas verificáveis + consistência
 cross-platform + zero monetização suspeita → OPSEC legítimo ✅
 
-Pseudônimo + sem entregas + cobrança sem NF + reclamações 
+Pseudônimo + sem entregas + cobrança sem NF + reclamações
 + inconsistência entre plataformas → RF-07 acionado 🚨
 ```
 
@@ -200,6 +251,7 @@ O agente produz uma resposta em **7 seções obrigatórias** + **2 artefatos exp
 ### 1. Copie o prompt
 
 Abra o arquivo [`prompt.txt`](./prompt.txt) e copie o conteúdo completo.
+Versão estruturada disponível em [`prompt.toon`](./prompt.toon) / [`prompt_toon.txt`](./prompt_toon.txt).
 
 ### 2. Preencha o perfil a investigar
 
@@ -215,7 +267,7 @@ Links conhecidos:             SUBSTITUIR
 
 O prompt foi testado e é compatível com:
 
-- [Grok](https://grok.com/) - Expert / Grok 4.20 Beta / SuperGrok
+- [Grok](https://grok.com/) — Expert / Grok 4.20 Beta / SuperGrok
 - [Claude](https://claude.ai)
 - [ChatGPT](https://chat.openai.com)
 - [Gemini](https://gemini.google.com)
@@ -264,6 +316,30 @@ flowchart TD
 
 ---
 
+## 🔐 Vetores de ataque monitorados
+
+O agente detecta e documenta técnicas utilizadas por golpistas e agentes maliciosos:
+
+| ID | Técnica | Descrição resumida |
+|---|---|---|
+| AV-01 | Typosquatting | Domínios com erros tipográficos propositais |
+| AV-02 | Domain squatting | Registro antecipado de domínios similares a marcas |
+| AV-03 | Cloaking | Conteúdo diferente para buscadores e usuários reais |
+| AV-04 | Link spoofing | URL legítimo visualmente, destino real malicioso |
+| AV-05 | IDN Homograph Attack | Caracteres Unicode idênticos a letras latinas em domínios — ex: `раурal.com` vs `paypal.com` |
+| AV-06 | Zero-width characters | Caracteres invisíveis em nomes/handles para burlar filtros |
+| AV-07 | Punycode phishing | Domínios IDN em Punycode (`xn--...`) imperceptíveis em clientes de e-mail |
+| AV-08 | E-mail Spoofing | Falsificação do campo `De:` via manipulação de cabeçalhos SMTP |
+| AV-09 | BEC | Business Email Compromise — desvio de pagamentos via e-mail corporativo |
+| AV-10 | Quishing | QR codes maliciosos em panfletos, e-mails ou mensagens |
+| AV-11 | Sim Swapping | Transferência fraudulenta de chip para sequestro de 2FA |
+| AV-12 | Deepfake de voz/vídeo | IA para imitar voz ou rosto em golpes de urgência |
+| AV-13 | Scarcity framing | Manipulação de escassez para acelerar decisões sem reflexão |
+
+> **Phishing · Vishing · SMiShing · Impersonation · Pretexting · Social Engineering** também são cobertos na análise de engenharia social.
+
+---
+
 ## 🔑 Prioridade de fontes
 
 O agente segue uma hierarquia rígida de confiabilidade:
@@ -288,11 +364,14 @@ O agente segue uma hierarquia rígida de confiabilidade:
 
 | Parâmetro | Valor |
 |---|---|
+| Versão | v1.1.0 |
 | Tom | Neutro · profissional · forense |
 | Ceticismo | Máximo — nunca aceita marketing próprio como fato |
 | Formatação de saída | Texto simples inline · emojis apenas em cabeçalhos |
 | Informação ausente | Declaração explícita obrigatória |
 | Confidence máximo sem nome civil | 95/100 |
+| Red flags cobertos | 12 categorias (RF-01 a RF-12) |
+| Vetores de ataque mapeados | 13 técnicas (AV-01 a AV-13) |
 
 ---
 
@@ -313,5 +392,5 @@ O uso é de responsabilidade exclusiva de quem executa a investigação. Respeit
 ---
 
 <div align="center">
-  <sub>osint-agent-br v1.0.0 · Feito para investigadores, pesquisadores e profissionais de segurança</sub>
+  <sub>osint-agent-br v1.1.0 · Feito para investigadores, pesquisadores e profissionais de segurança</sub>
 </div>
