@@ -49,11 +49,10 @@ Se precisar de ajuda ou quiser falar com a equipe, entre no nosso servidor de su
 
 ## 🌟 Star History
 
-
-<a href="https://www.star-history.com/#ravenastar-js/social-id&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=ravenastar-js%2Fsocial-id&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://www.star-history.com/?repos=ravenastar-js%2Fsocial-id&type=date&legend=top-left&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://www.star-history.com/?repos=ravenastar-js%2Fsocial-id&type=date&legend=top-left&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://www.star-history.com/?repos=ravenastar-js%2Fsocial-id&type=date&legend=top-left&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=ravenastar-js/social-id&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=ravenastar-js/social-id&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=ravenastar-js/social-id&type=date&legend=top-left" />
  </picture>
 </a>
