@@ -1,3 +1,103 @@
+
+> [!WARNING]
+> <details>
+> <summary>⚠️ AVISO IMPORTANTE — clique para ler antes de usar</summary>
+>
+> <br>
+>
+> Este agente e os relatórios por ele gerados são fornecidos exclusivamente para fins informativos, educacionais e de pesquisa em fontes abertas (OSINT).
+>
+> ---
+>
+> ### 1. 🚫 Não substitui serviços especializados
+>
+> Os resultados produzidos por este agente **NÃO substituem**, **NÃO dispensam** e **NÃO equivalem** aos serviços prestados por:
+>
+> - Detetives particulares licenciados
+> - Investigadores profissionais credenciados
+> - Advogados, juristas e assessores jurídicos
+> - Peritos criminais e peritos forenses oficiais
+> - Delegados de polícia e autoridades policiais
+> - Promotores de justiça e membros do Ministério Público
+> - Juízes e tribunais competentes
+> - Psicólogos, assistentes sociais e profissionais de saúde
+> - Agências de inteligência e órgãos de segurança pública
+> - Empresas especializadas em due diligence corporativa
+> - Consultorias de compliance e gestão de risco
+>
+> Sempre consulte um profissional habilitado antes de tomar qualquer decisão com base nas informações aqui geradas.
+>
+> ---
+>
+> ### 2. ⚖️ Não constitui prova judicial
+>
+> Nenhuma informação, relatório, diagrama ou conclusão gerada por este agente possui **valor probatório legal**. Os dados obtidos via OSINT não são admissíveis como prova em processos judiciais, administrativos ou disciplinares sem validação por autoridade competente e observância dos procedimentos legais aplicáveis (coleta, cadeia de custódia, perícia).
+>
+> ---
+>
+> ### 3. 🔍 Limitações inerentes à metodologia OSINT
+>
+> Investigações baseadas em fontes abertas possuem limitações estruturais que o usuário deve considerar:
+>
+> - Dados públicos podem estar desatualizados, incompletos ou incorretos na fonte de origem
+> - Homônimos podem gerar confusão de identidade
+> - Perfis falsos, clonados ou impersonados podem induzir a conclusões equivocadas
+> - A ausência de informação **não equivale** à inexistência do fato investigado
+> - O agente depende da qualidade e da disponibilidade das fontes no momento da consulta
+> - Modelos de linguagem (LLMs) podem cometer erros factuais mesmo com instruções rigorosas de verificação
+>
+> ---
+>
+> ### 4. 👤 Responsabilidade do usuário
+>
+> O uso deste agente é de **responsabilidade exclusiva** de quem o opera. O usuário se compromete a:
+>
+> - Utilizar os resultados apenas para fins lícitos e éticos
+> - Não empregar as informações para perseguição, assédio, stalking, discriminação ou qualquer atividade ilícita
+> - Não tomar medidas unilaterais baseadas exclusivamente nos resultados deste agente sem validação independente
+>
+> Respeite integralmente a legislação vigente, em especial:
+>
+> | Lei | Descrição |
+> |---|---|
+> | **LGPD** — Lei nº 13.709/2018 | Lei Geral de Proteção de Dados |
+> | **Código Penal** — arts. 138, 139, 140 | Crimes contra a honra |
+> | **Código Penal** — art. 154-A | Invasão de dispositivo informático |
+> | **Marco Civil da Internet** — Lei nº 12.965/2014 | Direitos e deveres no uso da internet |
+> | **Lei de Acesso à Informação** — Lei nº 12.527/2011 | Transparência de dados públicos |
+> | **ECA** — Lei nº 8.069/1990 | Proteção de dados de menores de idade |
+> | **Legislações estrangeiras** | Aplicáveis caso o alvo esteja fora do Brasil |
+>
+> ---
+>
+> ### 5. 🛡️ Isenção de responsabilidade
+>
+> Os autores, mantenedores e colaboradores deste projeto:
+>
+> - **Não se responsabilizam** por danos diretos, indiretos, morais, materiais ou reputacionais decorrentes do uso ou mau uso deste agente
+> - **Não garantem** a precisão, completude ou atualidade das informações geradas
+> - **Não endossam** nenhuma conclusão específica produzida pelo agente sem verificação humana independente
+> - **Não assumem** qualquer responsabilidade por decisões tomadas com base nos relatórios gerados
+>
+> ---
+>
+> ### 6. 🤝 Uso ético e boas práticas
+>
+> Este projeto foi desenvolvido com o compromisso de promover o uso ético da inteligência de fontes abertas. Recomenda-se:
+>
+> - Verificar qualquer conclusão crítica em pelo menos duas fontes primárias independentes antes de agir
+> - Manter os relatórios gerados em sigilo e compartilhá-los apenas com partes diretamente envolvidas e autorizadas
+> - Destruir ou anonimizar relatórios quando não houver mais necessidade legítima de retenção
+> - Em caso de suspeita de crime, acionar as **autoridades competentes** (Polícia Civil, Federal, MP) ao invés de agir de forma autônoma
+>
+> ---
+>
+> <sub>Este disclaimer é parte integrante do projeto <strong>osint-agent-br v1.0.0</strong> e deve ser mantido em todas as versões derivadas, forks e redistribuições.</sub>
+>
+> </details>
+
+---
+
 # 🕵️ OSINT Investigative Agent — BR
 
 > **osint-agent-br v1.0.0** · Agente de inteligência de fontes abertas para investigação de perfis públicos brasileiros  
